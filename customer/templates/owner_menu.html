@@ -1,0 +1,17 @@
+
+<nav class="sidebar-nav">
+    <a href="{% url 'owner_home' %}"><span class="nav-icon">🏠</span><span>Home</span></a>
+    <div class="sidebar-nav-label">Management</div>
+    <a href="{% url 'insertkitchen' %}"><span class="nav-icon">🏪</span><span>Add Kitchen</span></a>
+   <a href="{% url 'insertmenucategory' %}"><span class="nav-icon">🏪</span><span>Add Category</span></a>
+   <a href="{% url 'insertmenuitem' %}"><span class="nav-icon">🏪</span><span>Add Menu Item</span></a>
+    <a href="{% url 'owner_showmenucategory' %}"><span class="nav-icon">📂</span><span>Update Menu Category</span></a>
+    <a href="{% url 'owner_showmenuitem' %}"><span class="nav-icon">🍔</span><span>Update Menu Item</span></a>
+    <a href="{% url 'insertingredient' %}"><span class="nav-icon">🥬</span><span>Add Ingredient</span></a>
+  
+    <div class="sidebar-nav-label">Operations</div>
+    <a href="{% url 'showorder' %}"><span class="nav-icon">📦</span><span>Orders</span></a>
+   <a href="{% url 'insertnotification' %}"><span class="nav-icon">🔔</span><span>Notifications</span></a>
+    <a href="{% url 'showreview' %}"><span class="nav-icon">⭐</span><span>Reviews</span></a>
+    <a href="{% url 'logout' %}"><span class="nav-icon">🚪</span><span>Logout</span></a>
+</nav>

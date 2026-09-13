@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Add a new menu category to CloudKitchen system.">
+    <title>Add Menu Category | CloudKitchen</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="{% url 'showindex' %}" class="logo">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </a>
+
+
+        </nav>
+    </header>
+
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </div>
+            {% include 'owner_menu.html' %}
+        </aside>
+
+        <main class="dashboard-content">
+            <div class="page-header">
+                <div class="page-breadcrumb">
+                    <a href="{% url 'showindex' %}">Home</a>
+                    <span class="sep">›</span>
+                    <span>Add Menu Category</span>
+                </div>
+                <h1>Add <span>Menu Category</span></h1>
+                <p>Create a new menu category for organizing items</p>
+            </div>
+
+            <div class="dashboard-card admin-form">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="t1">Kitchen Name</label>
+                            <select id="t1" name="t1" required>
+                                <option value="" disabled {% if not kname %}selected{% endif %} style="background: #1A1A2E; color: #FAFAFA;">Select Kitchen</option>
+                                {% for k in kitchen_list %}
+                                    <option value="{{ k.kitchen_name }}" {% if kname == k.kitchen_name %}selected{% endif %} style="background: #1A1A2E; color: #FAFAFA;">{{ k.kitchen_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="t2">Category Name</label>
+                            <input type="text" id="t2" name="t2" placeholder="Enter category name" pattern="^[a-zA-Z0-9\s]+$" title="Category Name must contain letters, numbers, and spaces only" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t3">Description</label>
+                            <input type="text" id="t3" name="t3" placeholder="Enter description" pattern=".{3,}" title="Description must be at least 3 characters long" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t4">Display Order</label>
+                            <input type="number" id="t4" name="t4" placeholder="Enter display order" min="1" step="1" required>
+                        </div>
+                    </div>
+                    <div class="form-grid full-width">
+                        <div class="form-group">
+                            <label for="t5">Status</label>
+                            <input type="text" id="t5" name="t5" placeholder="e.g. active, inactive" pattern="^[a-zA-Z\s]+$" title="Status must contain letters and spaces only" required>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-large">📂 Add Category</button>
+                       
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Load kname from localStorage if not populated by backend
+            const t1Input = document.getElementById("t1");
+            if (t1Input && !t1Input.value) {
+                const knameVal = localStorage.getItem("kname");
+                if (knameVal) {
+                    t1Input.value = knameVal;
+                }
+            }
+
+            const form = document.querySelector("form");
+            if (form) {
+                form.addEventListener("submit", function(event) {
+                    const catnameVal = document.getElementById("t2")?.value;
+                    if (catnameVal) {
+                        localStorage.setItem("catname", catnameVal);
+                    }
+                    const formTitle = document.querySelector("h1")?.textContent.trim() || document.querySelector("h2")?.textContent.trim() || "Form";
+                    alert(formTitle + " form submitted successfully!");
+                });
+            }
+        });
+    </script>
+</body>
+</html>

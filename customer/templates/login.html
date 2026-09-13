@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Login to your CloudKitchen account and order delicious food.">
+    <title>Login | CloudKitchen</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="{% url 'showindex' %}" class="logo">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="{% url 'showindex' %}">Home</a></li>
+            </ul>
+            <div class="nav-auth">
+                <a href="{% url 'logcheck' %}" class="btn btn-outline">Login</a>
+                <a href="{% url 'insertuserregistration' %}" class="btn btn-primary">Sign Up</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Login Section -->
+    <section class="auth-page login-page">
+        <div class="auth-card">
+            <h2>Welcome <span>Back</span></h2>
+            <p class="auth-subtitle">Login to order your favorite meals</p>
+
+            <form id="loginForm" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name">email</label>
+                    <input type="email" id="name" name="name" placeholder="Enter your name"                         title="Name must contain letters and spaces only" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password"
+                        pattern=".{6,}" title="Password must be at least 6 characters long" required>
+                </div>
+                <div class="form-options">
+
+                    <a href="#">Forgot Password?</a>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block btn-large">🔓 Login</button>
+            </form>
+
+
+
+            <div class="form-footer">
+                <p>Don't have an account? <a href="{% url 'insertuserregistration' %}">Sign Up</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 CloudKitchen. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.querySelector("form");
+            if (form) {
+                form.addEventListener("submit", function (event) {
+                    const formTitle = document.querySelector("h1")?.textContent.trim() || document.querySelector("h2")?.textContent.trim() || "Form";
+                    alert(formTitle + " form submitted successfully!");
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

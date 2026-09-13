@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Reset your CloudKitchen password securely.">
+    <title>Forgot Password | CloudKitchen</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="{% url 'showindex' %}" class="logo">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="{% url 'showindex' %}">Home</a></li>
+            </ul>
+            <div class="nav-auth">
+                <a href="{% url 'insertuserlogin' %}" class="btn btn-outline">Login</a>
+                <a href="{% url 'insertuserregistration' %}" class="btn btn-primary">Sign Up</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Forgot Password Section -->
+    <section class="auth-page forget-page">
+        <div class="auth-card">
+            <h2>Forgot <span>Password</span></h2>
+            <p class="auth-subtitle">Enter your email to reset your password</p>
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="user_email">Username or Email</label>
+                    <input type="text" id="user_email" name="user_email" placeholder="Enter username or email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|^[a-zA-Z0-9_]{3,30}$" title="Please enter a valid username or email address" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block btn-large">🔑 Reset Password</button>
+            </form>
+
+            <div class="form-footer">
+                <p>Remember your password? <a href="{% url 'insertuserlogin' %}">Login</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 CloudKitchen. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.querySelector("form");
+            if (form) {
+                form.addEventListener("submit", function(event) {
+                    const formTitle = document.querySelector("h1")?.textContent.trim() || document.querySelector("h2")?.textContent.trim() || "Form";
+                    alert(formTitle + " form submitted successfully!");
+                });
+            }
+        });
+    </script>
+</body>
+</html>

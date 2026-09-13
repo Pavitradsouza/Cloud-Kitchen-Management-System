@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Add a new order to CloudKitchen system.">
+    <title>Add Order | CloudKitchen</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="{% url 'showindex' %}" class="logo">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </a>
+<!--            <ul class="nav-links">-->
+<!--                <li><a href="{% url 'showindex' %}">Home</a></li>-->
+<!--                <li><a href="{% url 'showindex' %}#features">How It Works</a></li>-->
+<!--                <li><a href="{% url 'showindex' %}#menu">Menu</a></li>-->
+<!--                <li><a href="{% url 'showindex' %}#testimonials">Reviews</a></li>-->
+<!--            </ul>-->
+<!--            <div class="nav-auth">-->
+<!--                <a href="{% url 'insertuserlogin' %}" class="btn btn-outline">Login</a>-->
+<!--                <a href="{% url 'insertuserregistration' %}" class="btn btn-primary">Sign Up</a>-->
+<!--            </div>-->
+        </nav>
+    </header>
+
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </div>
+            {% include 'customer_menu.html' %}
+        </aside>
+
+        <main class="dashboard-content">
+            <div class="page-header">
+                <div class="page-breadcrumb">
+                    <a href="{% url 'showindex' %}">Home</a>
+                    <span class="sep">›</span>
+                    <span>Add Order</span>
+                </div>
+                <h1>Add <span>Order</span></h1>
+                <p>Create a new customer order</p>
+            </div>
+
+            <div class="dashboard-card admin-form">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="t1">Customer (Username)</label>
+                            <input type="text" id="t1" name="t1" value="{{ username }}" placeholder="Enter customer" required readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="t2">Kitchen</label>
+                            <input type="text" id="t2" name="t2" value="{{ kname }}" placeholder="Enter kitchen" pattern="^[a-zA-Z0-9\s]+$" title="Kitchen name must contain letters, numbers, and spaces only" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t3">Order Date</label>
+                            <input type="date" id="t3" name="t3" value="{{ today }}" placeholder="YYYY-MM-DD" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t4">Delivery Address</label>
+                            <input type="text" id="t4" name="t4" placeholder="Enter delivery address" pattern="^[a-zA-Z0-9\s,.-]+$" title="Address must contain alphanumeric characters and common punctuation only" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t5">Total Amount</label>
+                            <input type="number" id="t5" name="t5" value="{{ total_sum }}" placeholder="Enter total amount" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t6">Discount Applied</label>
+                            <input type="number" id="t6" name="t6" value="{{ discount }}" placeholder="Enter discount" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t7">Final Amount</label>
+                            <input type="number" id="t7" name="t7" value="{{ famt }}" placeholder="Enter final amount" min="0" step="0.01" required readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="t8">Order Type</label>
+                            <input type="text" id="t8" name="t8" placeholder="e.g. delivery, pickup" pattern="^[a-zA-Z\s]+$" title="Order Type must contain letters and spaces only" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t9">Special Instructions</label>
+                            <input type="text" id="t9" name="t9" placeholder="Enter special instructions" pattern="^[a-zA-Z0-9\s,.-]*$" title="Special instructions must contain alphanumeric characters and common punctuation only">
+                        </div>
+                        <div class="form-group">
+                            <label for="t10">Status</label>
+                            <input type="text" id="t10" name="t10" value="Pending" placeholder="e.g. pending, delivered" pattern="^[a-zA-Z\s]+$" title="Status must contain letters and spaces only" required>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-large">📦 Create Order</button>
+                        <a href="{% url 'showorder' %}" class="btn btn-outline">View All Orders</a>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const t5Input = document.getElementById("t5");
+            const t6Input = document.getElementById("t6");
+            const t7Input = document.getElementById("t7");
+
+            function calculateFamt() {
+                const total = parseFloat(t5Input.value) || 0;
+                const discount = parseFloat(t6Input.value) || 0;
+                t7Input.value = Math.max(0, total - discount).toFixed(2);
+            }
+
+            if (t5Input && t6Input && t7Input) {
+                t5Input.addEventListener("input", calculateFamt);
+                t6Input.addEventListener("input", calculateFamt);
+                calculateFamt();
+            }
+
+            const form = document.querySelector("form");
+            if (form) {
+                form.addEventListener("submit", function(event) {
+                    const formTitle = document.querySelector("h1")?.textContent.trim() || document.querySelector("h2")?.textContent.trim() || "Form";
+                    alert(formTitle + " form submitted successfully!");
+                });
+            }
+        });
+    </script>
+</body>
+</html>

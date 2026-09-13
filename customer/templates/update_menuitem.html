@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Update menu item in CloudKitchen system.">
+    <title>Update Menu Item | CloudKitchen</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <a href="{% url 'showindex' %}" class="logo">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </a>
+        </nav>
+    </header>
+
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </div>
+            {% include 'owner_menu.html' %}
+        </aside>
+
+        <main class="dashboard-content">
+            <div class="page-header">
+                <div class="page-breadcrumb">
+                    <a href="{% url 'owner_home' %}">Home</a>
+                    <span class="sep">›</span>
+                    <a href="{% url 'owner_showmenuitem' %}">Update Menu Items</a>
+                    <span class="sep">›</span>
+                    <span>Edit</span>
+                </div>
+                <h1>Update <span>Menu Item</span></h1>
+                <p>Edit the details of the selected menu item</p>
+            </div>
+
+            <div class="dashboard-card admin-form">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="t1">menuitem</label>
+                            <input type="text" id="t1" name="t1" value="{{ item.menuitem }}" placeholder="Enter menuitem" pattern="^[a-zA-Z0-9\s]+$" title="Menu item ID must contain letters, numbers, and spaces only" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t2">Category</label>
+                            <input type="text" id="t2" name="t2" value="{{ item.category }}" placeholder="Enter category" pattern="^[a-zA-Z0-9\s]+$" title="Category must contain letters, numbers, and spaces only" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t3">Item Name</label>
+                            <input type="text" id="t3" name="t3" value="{{ item.item_name }}" placeholder="Enter item name" pattern="^[a-zA-Z0-9\s]+$" title="Item Name must contain letters, numbers, and spaces only" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t4">Description</label>
+                            <input type="text" id="t4" name="t4" value="{{ item.description }}" placeholder="Enter description" pattern=".{3,}" title="Description must be at least 3 characters long" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t5">Price</label>
+                            <input type="number" id="t5" name="t5" value="{{ item.price }}" placeholder="Enter price" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t6">Discount Price</label>
+                            <input type="number" id="t6" name="t6" value="{{ item.discount_price }}" placeholder="Enter discount price" min="0" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="t7">Preparation Time</label>
+                            <input type="text" id="t7" name="t7" value="{{ item.preparation_time }}" placeholder="e.g. 20 mins" pattern="^[a-zA-Z0-9\s]+$" title="Preparation Time must be alphanumeric (e.g. 20 mins)" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t8">Veg / Non-Veg</label>
+                            <input type="text" id="t8" name="t8" value="{{ item.veg_non_veg }}" placeholder="e.g. veg, non-veg" pattern="^[a-zA-Z/\s-]+$" title="Veg / Non-Veg must contain letters, slash, and spaces only (e.g. veg, non-veg)" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t9">Spice Level</label>
+                            <input type="text" id="t9" name="t9" value="{{ item.spice_level }}" placeholder="e.g. mild, medium, hot" pattern="^[a-zA-Z\s]+$" title="Spice Level must contain letters only (e.g. mild, medium, hot)" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t10">Photo</label>
+                            <input type="file" id="t10" name="t10" accept="image/*">
+                            {% if item.photo %}
+                                <div style="margin-top: 5px;">
+                                    <span style="font-size: 0.8rem; color: var(--text-muted);">Current: <a href="{{ item.photo.url }}" target="_blank" style="color: var(--primary-light);">View Photo</a></span>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label for="t11">availability</label>
+                            <input type="text" id="t11" name="t11" value="{{ item.availability }}" placeholder="Enter availability" pattern="^[a-zA-Z0-9\s]+$" title="Availability must contain letters and spaces only">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-large">🍔 Update Menu Item</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.querySelector("form");
+            if (form) {
+                form.addEventListener("submit", function(event) {
+                    const formTitle = document.querySelector("h1")?.textContent.trim() || "Form";
+                    alert(formTitle + " form submitted successfully!");
+                });
+            }
+        });
+    </script>
+</body>
+</html>

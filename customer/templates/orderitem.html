@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Add a new order item to CloudKitchen system.">
+    <title>Add Order Item | CloudKitchen</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="{% url 'showindex' %}" class="logo">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="{% url 'showindex' %}">Home</a></li>
+                <li><a href="{% url 'showindex' %}#features">How It Works</a></li>
+                <li><a href="{% url 'showindex' %}#menu">Menu</a></li>
+                <li><a href="{% url 'showindex' %}#testimonials">Reviews</a></li>
+            </ul>
+            <div class="nav-auth">
+                <a href="{% url 'insertuserlogin' %}" class="btn btn-outline">Login</a>
+                <a href="{% url 'insertuserregistration' %}" class="btn btn-primary">Sign Up</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </div>
+            {% include 'customer_menu.html' %}
+        </aside>
+
+        <main class="dashboard-content">
+            <div class="page-header">
+                <div class="page-breadcrumb">
+                    <a href="{% url 'showindex' %}">Home</a>
+                    <span class="sep">›</span>
+                    <span>Add Order Item</span>
+                </div>
+                <h1>Add <span>Order Item</span></h1>
+                <p>Add an item to an existing order</p>
+            </div>
+
+            <div class="dashboard-card admin-form">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="t1">Order ID</label>
+                            <input type="text" id="t1" name="t1" value="{{ oid }}" placeholder="Enter order ID" pattern="^[a-zA-Z0-9_-]+$" title="Order ID must contain letters, numbers, hyphens, or underscores" required readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="t2">Menu Item</label>
+                            <input type="text" id="t2" name="t2" value="{{ item_name }}" placeholder="Enter menu item" pattern="^[a-zA-Z0-9\s]+$" title="Menu item must contain letters, numbers, and spaces only" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t3">Quantity</label>
+                            <input type="number" id="t3" name="t3" value="1" placeholder="Enter quantity" min="1" step="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t4">Unit Price</label>
+                            <input type="number" id="t4" name="t4" value="{{ price }}" placeholder="Enter unit price" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t5">Total Price</label>
+                            <input type="number" id="t5" name="t5" placeholder="Enter total price" min="0" step="0.01" required readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="t6">Customization</label>
+                            <input type="text" id="t6" name="t6" placeholder="Enter customization notes" pattern="^[a-zA-Z0-9\s,.-]*$" title="Customization must contain alphanumeric characters and common punctuation only">
+                        </div>
+                    </div>
+                    <div class="form-actions" style="display: flex; gap: 15px;">
+                        <button type="submit" name="action" value="add_item" class="btn btn-outline" style="flex: 1; border-color: var(--primary-color); color: var(--primary-color);">➕ Add Item</button>
+                        <button type="submit" name="action" value="add_order" class="btn btn-primary" style="flex: 1;">📝 Add Order</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const t3Input = document.getElementById("t3");
+            const t4Input = document.getElementById("t4");
+            const t5Input = document.getElementById("t5");
+
+            function calculateTotal() {
+                const qty = parseFloat(t3Input.value) || 0;
+                const price = parseFloat(t4Input.value) || 0;
+                t5Input.value = (qty * price).toFixed(2);
+            }
+
+            if (t3Input && t4Input && t5Input) {
+                t3Input.addEventListener("input", calculateTotal);
+                t4Input.addEventListener("input", calculateTotal);
+                calculateTotal();
+            }
+
+            const form = document.querySelector("form");
+            if (form) {
+                form.addEventListener("submit", function(event) {
+                    const formTitle = document.querySelector("h1")?.textContent.trim() || document.querySelector("h2")?.textContent.trim() || "Form";
+                    alert(formTitle + " form submitted successfully!");
+                });
+            }
+        });
+    </script>
+</body>
+</html>

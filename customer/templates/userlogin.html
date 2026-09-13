@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Add a user login record to CloudKitchen system.">
+    <title>Add User Login | CloudKitchen</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="{% url 'showindex' %}" class="logo">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="{% url 'showindex' %}">Home</a></li>
+                <li><a href="{% url 'showindex' %}#features">How It Works</a></li>
+                <li><a href="{% url 'showindex' %}#menu">Menu</a></li>
+                <li><a href="{% url 'showindex' %}#testimonials">Reviews</a></li>
+            </ul>
+            <div class="nav-auth">
+                <a href="{% url 'insertuserlogin' %}" class="btn btn-outline">Login</a>
+                <a href="{% url 'insertuserregistration' %}" class="btn btn-primary">Sign Up</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </div>
+            {% include 'owner_menu.html' %}
+        </aside>
+
+        <main class="dashboard-content">
+            <div class="page-header">
+                <div class="page-breadcrumb">
+                    <a href="{% url 'showindex' %}">Home</a>
+                    <span class="sep">›</span>
+                    <span>Add User Login</span>
+                </div>
+                <h1>Add <span>User Login</span></h1>
+                <p>Create a new user login credential</p>
+            </div>
+
+            <div class="dashboard-card admin-form">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="t1">Username</label>
+                            <input type="text" id="t1" name="t1" placeholder="Enter username" pattern="^[a-zA-Z0-9_]{3,30}$" title="Username must be 3-30 characters long and can contain letters, numbers, and underscores" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t2">Password</label>
+                            <input type="password" id="t2" name="t2" placeholder="Enter password" pattern=".{6,}" title="Password must be at least 6 characters long" required>
+                        </div>
+                    </div>
+                    <div class="form-grid full-width">
+                        <div class="form-group">
+                            <label for="t3">Type</label>
+                            <input type="text" id="t3" name="t3" placeholder="e.g. admin, customer, owner" pattern="^[a-zA-Z\s]+$" title="Type must contain letters and spaces only" required>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-large">🔐 Add User Login</button>
+                        <a href="{% url 'showuserlogin' %}" class="btn btn-outline">View All Logins</a>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.querySelector("form");
+            if (form) {
+                form.addEventListener("submit", function(event) {
+                    const formTitle = document.querySelector("h1")?.textContent.trim() || document.querySelector("h2")?.textContent.trim() || "Form";
+                    alert(formTitle + " form submitted successfully!");
+                });
+            }
+        });
+    </script>
+</body>
+</html>

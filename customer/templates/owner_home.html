@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Dashboard</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <a href="{% url 'owner_home' %}" class="logo">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen Owner</span>
+            </a>
+            <div class="nav-auth">
+                <a href="{% url 'showindex' %}" class="btn btn-outline">Logout</a>
+            </div>
+        </nav>
+    </header>
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <span class="logo-icon">👨‍🍳</span>
+                <span class="logo-text">Owner Portal</span>
+            </div>
+            {% include 'owner_menu.html' %}
+        </aside>
+        <main class="dashboard-content">
+            <div class="page-header">
+                <h1>Welcome to <span>Owner Dashboard</span></h1>
+                <p>Manage your kitchen, menu, orders, and ingredients efficiently.</p>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

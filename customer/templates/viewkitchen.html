@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="View all kitchens in CloudKitchen system.">
+    <title>View Kitchens | CloudKitchen</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <style>
+        .kitchen-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+        .kitchen-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+        }
+        .kitchen-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--primary);
+        }
+        .kitchen-card-header {
+            position: relative;
+            height: 140px;
+            background: linear-gradient(135deg, var(--primary-dark), var(--surface));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .kitchen-card-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            object-fit: cover;
+            background-color: var(--dark-alt);
+        }
+        .kitchen-card-body {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            flex: 1;
+        }
+        .kitchen-name-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .kitchen-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+        .kitchen-rating {
+            background: rgba(255, 186, 8, 0.15);
+            color: var(--accent);
+            padding: 0.25rem 0.65rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        .kitchen-detail-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+        .kitchen-detail-label {
+            font-weight: 500;
+        }
+        .kitchen-detail-value {
+            color: var(--text-light);
+            text-align: right;
+        }
+        .kitchen-card-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .status-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.65rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="{% url 'showindex' %}" class="logo">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </a>
+<!--            <ul class="nav-links">-->
+<!--                <li><a href="{% url 'showindex' %}">Home</a></li>-->
+<!--                <li><a href="{% url 'showindex' %}#features">How It Works</a></li>-->
+<!--                <li><a href="{% url 'showindex' %}#menu">Menu</a></li>-->
+<!--                <li><a href="{% url 'showindex' %}#testimonials">Reviews</a></li>-->
+<!--            </ul>-->
+<!--            <div class="nav-auth">-->
+<!--                <a href="{% url 'insertuserlogin' %}" class="btn btn-outline">Login</a>-->
+<!--                <a href="{% url 'insertuserregistration' %}" class="btn btn-primary">Sign Up</a>-->
+<!--            </div>-->
+        </nav>
+    </header>
+
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </div>
+            {% include 'customer_menu.html' %}
+        </aside>
+
+        <main class="dashboard-content">
+            <div class="page-header">
+                <div class="page-breadcrumb">
+                    <a href="{% url 'showindex' %}">Home</a>
+                    <span class="sep">›</span>
+                    <span>Kitchens</span>
+                </div>
+                <h1>All <span>Kitchens</span></h1>
+                <p>Manage registered cloud kitchens</p>
+            </div>
+
+            <div class="kitchen-grid">
+                {% for i in userdict %}
+                <div class="kitchen-card">
+                    <div class="kitchen-card-header">
+                        {% if i.logo %}
+                            <img src="{{ i.logo.url }}" alt="{{ i.kitchen_name }} Logo" class="kitchen-card-logo">
+                        {% else %}
+                            <div class="kitchen-card-logo" style="display: flex; align-items: center; justify-content: center; font-size: 2.5rem; background: var(--dark-alt); color: var(--accent);">🏪</div>
+                        {% endif %}
+                    </div>
+                    <div class="kitchen-card-body">
+                        <div class="kitchen-name-wrapper">
+                            <span class="kitchen-name">{{ i.kitchen_name }}</span>
+                            <span class="kitchen-rating">⭐ {{ i.rating }}</span>
+                        </div>
+                        <div class="kitchen-detail-row">
+                            <span class="kitchen-detail-label">Cuisine</span>
+                            <span class="kitchen-detail-value">{{ i.cuisine_type }}</span>
+                        </div>
+                        <div class="kitchen-detail-row">
+                            <span class="kitchen-detail-label">Location</span>
+                            <span class="kitchen-detail-value">{{ i.location }}</span>
+                        </div>
+                        <div class="kitchen-detail-row">
+                            <span class="kitchen-detail-label">Owner</span>
+                            <span class="kitchen-detail-value">{{ i.owner }}</span>
+                        </div>
+                        <div class="kitchen-detail-row">
+                            <span class="kitchen-detail-label">Contact</span>
+                            <span class="kitchen-detail-value">{{ i.contact }}</span>
+                        </div>
+                        <div class="kitchen-detail-row">
+                            <span class="kitchen-detail-label">License No.</span>
+                            <span class="kitchen-detail-value">{{ i.license_number }}</span>
+                        </div>
+                    </div>
+                    <div class="kitchen-card-footer">
+                        {% if i.status|lower == 'active' %}
+                            <span class="status-badge badge-success">{{ i.status }}</span>
+                        {% elif i.status|lower == 'inactive' %}
+                            <span class="status-badge badge-warning">{{ i.status }}</span>
+                        {% else %}
+                            <span class="status-badge badge-danger">{{ i.status }}</span>
+                        {% endif %}
+                        <a href="{% url 'showmenucategory' %}?kitchen={{ i.kitchen_name }}" class="btn btn-primary" style="padding: 0.45rem 1.2rem; font-size: 0.85rem; border-radius: 8px;">✔️ Select</a>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="empty-state" style="grid-column: 1 / -1;">
+                    <div class="empty-icon">🏪</div>
+                    <p>No kitchens found. <a href="{% url 'insertkitchen' %}" style="color: var(--primary-light);">Add one now</a></p>
+                </div>
+                {% endfor %}
+            </div>
+        </main>
+    </div>
+</body>
+</html>

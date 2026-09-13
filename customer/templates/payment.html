@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Add a new payment record to CloudKitchen system.">
+    <title>Add Payment | CloudKitchen</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="{% url 'showindex' %}" class="logo">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </a>
+<!--            <ul class="nav-links">-->
+<!--                <li><a href="{% url 'showindex' %}">Home</a></li>-->
+<!--                <li><a href="{% url 'showindex' %}#features">How It Works</a></li>-->
+<!--                <li><a href="{% url 'showindex' %}#menu">Menu</a></li>-->
+<!--                <li><a href="{% url 'showindex' %}#testimonials">Reviews</a></li>-->
+<!--            </ul>-->
+<!--            <div class="nav-auth">-->
+<!--                <a href="{% url 'insertuserlogin' %}" class="btn btn-outline">Login</a>-->
+<!--                <a href="{% url 'insertuserregistration' %}" class="btn btn-primary">Sign Up</a>-->
+<!--            </div>-->
+        </nav>
+    </header>
+
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </div>
+            {% include 'customer_menu.html' %}
+        </aside>
+
+        <main class="dashboard-content">
+            <div class="page-header">
+                <div class="page-breadcrumb">
+                    <a href="{% url 'showindex' %}">Home</a>
+                    <span class="sep">›</span>
+                    <span>Add Payment</span>
+                </div>
+                <h1>Add <span>Payment</span></h1>
+                <p>Record a new payment transaction</p>
+            </div>
+
+            <div class="dashboard-card admin-form">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="t1">Order ID</label>
+                            <input type="text" id="t1" name="t1" value="{{ oid }}" placeholder="Enter order ID" pattern="^[a-zA-Z0-9_-]+$" title="Order ID must contain letters, numbers, hyphens, or underscores" required readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="t2">Customer (Username)</label>
+                            <input type="text" id="t2" name="t2" value="{{ username }}" placeholder="Enter customer" required readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="t3">Amount</label>
+                            <input type="number" id="t3" name="t3" value="{{ totamt }}" placeholder="Enter amount" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t4">Payment Method</label>
+                            <input type="text" id="t4" name="t4" value="UPI" placeholder="e.g. UPI, card, cash" pattern="^[a-zA-Z\s]+$" title="Payment method must contain letters and spaces only" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t5">Transaction ID</label>
+                            <input type="text" id="t5" name="t5" value="{{ txn_id }}" placeholder="Enter transaction ID" pattern="^[a-zA-Z0-9_-]+$" title="Transaction ID must contain letters, numbers, hyphens, or underscores" required readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="t6">Payment Date</label>
+                            <input type="date" id="t6" name="t6" value="{{ today }}" placeholder="YYYY-MM-DD" required>
+                        </div>
+                    </div>
+                    <div class="form-grid full-width">
+                        <div class="form-group">
+                            <label for="t7">Status</label>
+                            <input type="text" id="t7" name="t7" value="orderd" placeholder="e.g. paid, pending, refunded" pattern="^[a-zA-Z\s]+$" title="Status must contain letters and spaces only" required>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-large">💳 Record Payment</button>
+                        <a href="{% url 'showpayment' %}" class="btn btn-outline">View All Payments</a>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.querySelector("form");
+            if (form) {
+                form.addEventListener("submit", function(event) {
+                    const formTitle = document.querySelector("h1")?.textContent.trim() || document.querySelector("h2")?.textContent.trim() || "Form";
+                    alert(formTitle + " form submitted successfully!");
+                });
+            }
+        });
+    </script>
+</body>
+</html>

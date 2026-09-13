@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="View all deliveries in CloudKitchen system.">
+    <title>View Deliveries | CloudKitchen</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="{% url 'showindex' %}" class="logo">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </a>
+<!--            <ul class="nav-links">-->
+<!--                <li><a href="{% url 'showindex' %}">Home</a></li>-->
+<!--                <li><a href="{% url 'showindex' %}#features">How It Works</a></li>-->
+<!--                <li><a href="{% url 'showindex' %}#menu">Menu</a></li>-->
+<!--                <li><a href="{% url 'showindex' %}#testimonials">Reviews</a></li>-->
+<!--            </ul>-->
+<!--            <div class="nav-auth">-->
+<!--                <a href="{% url 'insertuserlogin' %}" class="btn btn-outline">Login</a>-->
+<!--                <a href="{% url 'insertuserregistration' %}" class="btn btn-primary">Sign Up</a>-->
+<!--            </div>-->
+        </nav>
+    </header>
+
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </div>
+            {% include 'owner_menu.html' %}
+        </aside>
+
+        <main class="dashboard-content">
+            <div class="page-header">
+                <div class="page-breadcrumb">
+                    <a href="{% url 'showindex' %}">Home</a>
+                    <span class="sep">›</span>
+                    <span>Deliveries</span>
+                </div>
+                <h1>All <span>Deliveries</span></h1>
+                <p>Track all delivery assignments</p>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Order</th>
+                                <th>Delivery Person</th>
+                                <th>Pickup Time</th>
+                                <th>Delivery Time</th>
+                                <th>Estimated Time</th>
+                                <th>Delivery Address</th>
+                                <th>Delivery Fee</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in userdict %}
+                            <tr>
+                                <td>{{ i.order }}</td>
+                                <td>{{ i.delivery_person }}</td>
+                                <td>{{ i.pickup_time }}</td>
+                                <td>{{ i.delivery_time }}</td>
+                                <td>{{ i.estimated_time }}</td>
+                                <td>{{ i.delivery_address }}</td>
+                                <td>{{ i.delivery_fee }}</td>
+                                <td>{{ i.status }}</td>
+                                <td><a href="{% url 'deldelivery' i.id %}" class="action-link">🗑 Delete</a></td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="9">
+                                    <div class="empty-state">
+                                        <div class="empty-icon">🚚</div>
+                                        <p>No deliveries found. <a href="{% url 'insertdelivery' %}" style="color: var(--primary-light);">Add one now</a></p>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-footer">
+                    <span>Showing all delivery records</span>
+                    <a href="{% url 'insertdelivery' %}" class="btn btn-primary">+ Add Delivery</a>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

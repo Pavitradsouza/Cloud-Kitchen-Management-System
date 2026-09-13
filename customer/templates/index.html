@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="CloudKitchen - Premium food delivery from expert cloud kitchens. Order fresh, delicious meals delivered to your doorstep.">
+    <title>CloudKitchen | Gourmet Food Delivered</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="header" id="header">
+        <nav class="navbar">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </a>
+            <ul class="nav-links">
+
+
+            </ul>
+            <div class="nav-auth">
+                <a href="{% url 'logcheck' %}" class="btn btn-outline">Login</a>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+
+            <h1>Delicious Food, <span>Delivered Fast</span> From Our Kitchen</h1>
+            <p>Experience restaurant-quality meals prepared by expert chefs in our state-of-the-art cloud kitchens.
+                Fresh ingredients, bold flavors, delivered to your door.</p>
+            <div class="hero-buttons"><a href="{% url 'insertuserregistration' %}" class="btn btn-primary btn-large">🚀 Register Now</a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section" id="features">
+        <div class="section-header">
+            <h2>How <span>It Works</span></h2>
+            <p>Order your favorite meals in three simple steps</p>
+        </div>
+        <div class="features-container">
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Browse &amp; Select</h3>
+                <p>Explore our wide range of cuisines and pick your favorite dishes from the menu.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">👨‍🍳</div>
+                <h3>Freshly Prepared</h3>
+                <p>Our expert chefs prepare your order with the freshest ingredients in our cloud kitchen.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🚗</div>
+                <h3>Fast Delivery</h3>
+                <p>Get your hot, delicious meal delivered right to your doorstep within 30 minutes.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Highlights -->
+    <section class="section testimonials" id="menu">
+        <div class="section-header">
+            <h2>Popular <span>Dishes</span></h2>
+            <p>Handpicked favorites loved by our customers</p>
+        </div>
+        <div class="menu-container">
+            <div class="menu-card">
+                <div class="menu-card-img">🍕</div>
+                <div class="menu-card-body">
+                    <h3>Margherita Pizza</h3>
+                    <span class="price">₹299</span>
+                    <p>Classic thin crust with fresh mozzarella and basil</p>
+                </div>
+            </div>
+            <div class="menu-card">
+                <div class="menu-card-img">🍛</div>
+                <div class="menu-card-body">
+                    <h3>Butter Chicken</h3>
+                    <span class="price">₹349</span>
+                    <p>Creamy tomato gravy with tender chicken pieces</p>
+                </div>
+            </div>
+            <div class="menu-card">
+                <div class="menu-card-img">🍜</div>
+                <div class="menu-card-body">
+                    <h3>Hakka Noodles</h3>
+                    <span class="price">₹199</span>
+                    <p>Stir-fried noodles with fresh vegetables &amp; sauces</p>
+                </div>
+            </div>
+            <div class="menu-card">
+                <div class="menu-card-img">🥗</div>
+                <div class="menu-card-body">
+                    <h3>Caesar Salad</h3>
+                    <span class="price">₹249</span>
+                    <p>Crisp romaine, parmesan, croutons &amp; dressing</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Footer -->
+    <footer class="footer">
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 CloudKitchen. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

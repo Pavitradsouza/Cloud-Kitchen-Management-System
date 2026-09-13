@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="View all payments in CloudKitchen system.">
+    <title>View Payments | CloudKitchen</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="{% url 'showindex' %}" class="logo">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </a>
+<!--            <ul class="nav-links">-->
+<!--                <li><a href="{% url 'showindex' %}">Home</a></li>-->
+<!--                <li><a href="{% url 'showindex' %}#features">How It Works</a></li>-->
+<!--                <li><a href="{% url 'showindex' %}#menu">Menu</a></li>-->
+<!--                <li><a href="{% url 'showindex' %}#testimonials">Reviews</a></li>-->
+<!--            </ul>-->
+<!--            <div class="nav-auth">-->
+<!--                <a href="{% url 'insertuserlogin' %}" class="btn btn-outline">Login</a>-->
+<!--                <a href="{% url 'insertuserregistration' %}" class="btn btn-primary">Sign Up</a>-->
+<!--            </div>-->
+        </nav>
+    </header>
+
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </div>
+            {% include 'owner_menu.html' %}
+        </aside>
+
+        <main class="dashboard-content">
+            <div class="page-header">
+                <div class="page-breadcrumb">
+                    <a href="{% url 'showindex' %}">Home</a>
+                    <span class="sep">›</span>
+                    <span>Payments</span>
+                </div>
+                <h1>All <span>Payments</span></h1>
+                <p>View and manage payment transactions</p>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Order</th>
+                                <th>Customer</th>
+                                <th>Amount</th>
+                                <th>Payment Method</th>
+                                <th>Transaction ID</th>
+                                <th>Payment Date</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in userdict %}
+                            <tr>
+                                <td>{{ i.order }}</td>
+                                <td>{{ i.customer }}</td>
+                                <td>{{ i.amount }}</td>
+                                <td>{{ i.payment_method }}</td>
+                                <td>{{ i.transaction_id }}</td>
+                                <td>{{ i.payment_date }}</td>
+                                <td>{{ i.status }}</td>
+                                <td><a href="{% url 'insertdelivery' %}?order={{ i.order }}" class="action-link" style="color: #4CAF50;">🚚 Delivery</a></td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="8">
+                                    <div class="empty-state">
+                                        <div class="empty-icon">💳</div>
+                                        <p>No payments found. <a href="{% url 'insertpayment' %}" style="color: var(--primary-light);">Record one now</a></p>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-footer">
+                    <span>Showing all payment records</span>
+                    <a href="{% url 'insertpayment' %}" class="btn btn-primary">+ Add Payment</a>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

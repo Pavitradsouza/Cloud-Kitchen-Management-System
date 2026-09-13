@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="View all coupons in CloudKitchen system.">
+    <title>View Coupons | CloudKitchen</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="{% url 'showindex' %}" class="logo">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </a>
+<!--            <ul class="nav-links">-->
+<!--                <li><a href="{% url 'showindex' %}">Home</a></li>-->
+<!--                <li><a href="{% url 'showindex' %}#features">How It Works</a></li>-->
+<!--                <li><a href="{% url 'showindex' %}#menu">Menu</a></li>-->
+<!--                <li><a href="{% url 'showindex' %}#testimonials">Reviews</a></li>-->
+<!--            </ul>-->
+<!--            <div class="nav-auth">-->
+<!--                <a href="{% url 'insertuserlogin' %}" class="btn btn-outline">Login</a>-->
+<!--                <a href="{% url 'insertuserregistration' %}" class="btn btn-primary">Sign Up</a>-->
+<!--            </div>-->
+        </nav>
+    </header>
+
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </div>
+<!--            {% include 'owner_menu.html' %}-->
+        </aside>
+
+        <main class="dashboard-content">
+            <div class="page-header">
+                <div class="page-breadcrumb">
+                    <a href="{% url 'showindex' %}">Home</a>
+                    <span class="sep">›</span>
+                    <span>Coupons</span>
+                </div>
+                <h1>All <span>Coupons</span></h1>
+                <p>Manage discount coupons for your kitchens</p>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Kitchen</th>
+                                <th>Coupon Code</th>
+                                <th>Description</th>
+                                <th>Discount Type</th>
+                                <th>Discount Value</th>
+                                <th>Min Order</th>
+                                <th>Max Discount</th>
+                                <th>Valid From</th>
+                                <th>Valid To</th>
+                                <th>Usage Limit</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in userdict %}
+                            <tr>
+                                <td>{{ i.kitchen }}</td>
+                                <td>{{ i.coupon_code }}</td>
+                                <td>{{ i.description }}</td>
+                                <td>{{ i.discount_type }}</td>
+                                <td>{{ i.discount_value }}</td>
+                                <td>{{ i.min_order_amount }}</td>
+                                <td>{{ i.max_discount_amount }}</td>
+                                <td>{{ i.valid_from }}</td>
+                                <td>{{ i.valid_to }}</td>
+                                <td>{{ i.usage_limit }}</td>
+                                <td>{{ i.status }}</td>
+                                <td><a href="{% url 'delcoupon' i.id %}" class="action-link">🗑 Delete</a></td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="12">
+                                    <div class="empty-state">
+                                        <div class="empty-icon">🎟️</div>
+                                        <p>No coupons found. <a href="{% url 'insertcoupon' %}" style="color: var(--primary-light);">Add one now</a></p>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-footer">
+                    <span>Showing all coupon records</span>
+<!--                    <a href="{% url 'insertcoupon' %}" class="btn btn-primary">+ Add Coupon</a>-->
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

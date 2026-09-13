@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Add a new kitchen to CloudKitchen system.">
+    <title>Add Kitchen | CloudKitchen</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="{% url 'showindex' %}" class="logo">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </a>
+
+
+        </nav>
+    </header>
+
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </div>
+            {% include 'owner_menu.html' %}
+        </aside>
+
+        <main class="dashboard-content">
+            <div class="page-header">
+                <div class="page-breadcrumb">
+                    <a href="{% url 'showindex' %}">Home</a>
+                    <span class="sep">›</span>
+                    <span>Add Kitchen</span>
+                </div>
+                <h1>Add <span>Kitchen</span></h1>
+                <p>Register a new cloud kitchen</p>
+            </div>
+
+            <div class="dashboard-card admin-form">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="t1">Owner</label>
+                            <input type="text" id="t1" name="t1" placeholder="Enter owner name" pattern="^[a-zA-Z\s]+$" title="Owner name must contain letters and spaces only" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t2">Kitchen Name</label>
+                            <input type="text" id="t2" name="t2" placeholder="Enter kitchen name" pattern="^[a-zA-Z0-9\s]+$" title="Kitchen Name must contain letters, numbers, and spaces only" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t3">Cuisine Type</label>
+                            <input type="text" id="t3" name="t3" placeholder="e.g. Indian, Chinese" pattern="^[a-zA-Z\s,]+$" title="Cuisine Type must contain letters and commas only" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t4">Location</label>
+                            <input type="text" id="t4" name="t4" placeholder="Enter location" pattern="^[a-zA-Z0-9\s,.-]+$" title="Location must contain letters, numbers, spaces, and common punctuation only" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t5">Contact</label>
+                            <input type="tel" id="t5" name="t5" placeholder="Enter contact number" pattern="^[0-9]{10}$" title="Please enter a 10-digit phone number" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t6">License Number</label>
+                            <input type="text" id="t6" name="t6" placeholder="Enter license number" pattern="^[a-zA-Z0-9-]+$" title="License Number must contain letters, numbers, and hyphens only" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t7">Rating</label>
+                            <input type="number" id="t7" name="t7" placeholder="Enter rating (1-5)" min="1" max="5" step="0.1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t8">Status</label>
+                            <input type="text" id="t8" name="t8" placeholder="e.g. active, inactive" pattern="^[a-zA-Z\s]+$" title="Status must contain letters only" required>
+                        </div>
+                    </div>
+                    <div class="form-grid full-width">
+                        <div class="form-group">
+                            <label for="t9">Logo</label>
+                            <input type="file" id="t9" name="t9" accept="image/*">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-large">🏪 Add Kitchen</button>
+                     
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.querySelector("form");
+            if (form) {
+                form.addEventListener("submit", function(event) {
+                    const knameVal = document.getElementById("t2")?.value;
+                    if (knameVal) {
+                        localStorage.setItem("kname", knameVal);
+                    }
+                    const formTitle = document.querySelector("h1")?.textContent.trim() || document.querySelector("h2")?.textContent.trim() || "Form";
+                    alert(formTitle + " form submitted successfully!");
+                });
+            }
+        });
+    </script>
+</body>
+</html>

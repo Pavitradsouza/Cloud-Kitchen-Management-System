@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manage menu categories in CloudKitchen system.">
+    <title>Update Menu Categories | CloudKitchen</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <style>
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+        .category-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+        }
+        .category-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+        .category-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+        .category-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            min-height: 40px;
+        }
+        .category-meta-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        .category-meta-value {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+        .category-actions {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.8rem;
+        }
+        .btn-action {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .btn-update {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: #fff;
+            border: none;
+        }
+        .btn-update:hover {
+            transform: translateY(-2px);
+        }
+        .btn-delete {
+            background: rgba(220, 53, 69, 0.1);
+            color: #ff4d4d;
+            border: 1px solid rgba(220, 53, 69, 0.2);
+            text-decoration: none;
+        }
+        .btn-delete:hover {
+            background: rgba(220, 53, 69, 0.25);
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <a href="{% url 'showindex' %}" class="logo">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </a>
+        </nav>
+    </header>
+
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </div>
+            {% include 'owner_menu.html' %}
+        </aside>
+
+        <main class="dashboard-content">
+            <div class="page-header">
+                <div class="page-breadcrumb">
+                    <a href="{% url 'owner_home' %}">Home</a>
+                    <span class="sep">›</span>
+                    <span>Update Menu Categories</span>
+                </div>
+                <h1>Update Menu <span>Categories</span></h1>
+                <p>Manage and edit categories for your kitchen</p>
+            </div>
+
+            <div class="category-grid">
+                {% for i in userdict %}
+                <div class="category-card">
+                    <div class="category-title">{{ i.category_name }}</div>
+                    <div class="category-desc">{{ i.description }}</div>
+                    
+                    <div class="category-meta-row">
+                        <span>Kitchen</span>
+                        <span class="category-meta-value">{{ i.kitchen }}</span>
+                    </div>
+                    <div class="category-meta-row">
+                        <span>Display Order</span>
+                        <span class="category-meta-value">{{ i.display_order }}</span>
+                    </div>
+                    <div class="category-meta-row">
+                        <span>Status</span>
+                        <span class="category-meta-value">{{ i.status }}</span>
+                    </div>
+                    
+                    <div class="category-actions">
+                        <a href="{% url 'owner_updatemenucategory' i.id %}" class="btn-action btn-update">✏️ Update</a>
+                        <a href="{% url 'owner_delmenucategory' i.id %}" class="btn-action btn-delete">🗑 Delete</a>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="empty-state" style="grid-column: 1 / -1;">
+                    <div class="empty-icon">📂</div>
+                    <p>No categories found.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </main>
+    </div>
+</body>
+</html>

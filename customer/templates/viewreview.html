@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="View all reviews in CloudKitchen system.">
+    <title>View Reviews | CloudKitchen</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <style>
+        .review-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+        }
+        .review-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+        }
+        .review-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--primary);
+        }
+        .review-card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .customer-info {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .customer-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #fff;
+        }
+        .customer-name {
+            font-weight: 600;
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+        .review-rating-pill {
+            background: rgba(255, 186, 8, 0.15);
+            color: var(--accent);
+            padding: 0.25rem 0.65rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        .review-card-body {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            flex: 1;
+        }
+        .review-quote {
+            font-style: italic;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        .review-photo-container {
+            width: 100%;
+            max-height: 200px;
+            overflow: hidden;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+        }
+        .review-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        .review-photo:hover {
+            transform: scale(1.03);
+        }
+        .review-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px dashed var(--glass-border);
+        }
+        .review-meta-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+        .review-meta-label {
+            font-weight: 500;
+        }
+        .review-meta-value {
+            color: var(--text-light);
+            text-align: right;
+        }
+        .review-card-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.1);
+        }
+        .review-date-text {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="{% url 'showindex' %}" class="logo">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </a>
+<!--            <ul class="nav-links">-->
+<!--                <li><a href="{% url 'showindex' %}">Home</a></li>-->
+<!--                <li><a href="{% url 'showindex' %}#features">How It Works</a></li>-->
+<!--                <li><a href="{% url 'showindex' %}#menu">Menu</a></li>-->
+<!--                <li><a href="{% url 'showindex' %}#testimonials">Reviews</a></li>-->
+<!--            </ul>-->
+<!--            <div class="nav-auth">-->
+<!--                <a href="{% url 'insertuserlogin' %}" class="btn btn-outline">Login</a>-->
+<!--                <a href="{% url 'insertuserregistration' %}" class="btn btn-primary">Sign Up</a>-->
+<!--            </div>-->
+        </nav>
+    </header>
+
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </div>
+            {% include 'owner_menu.html' %}
+        </aside>
+
+        <main class="dashboard-content">
+            <div class="page-header">
+                <div class="page-breadcrumb">
+                    <a href="{% url 'showindex' %}">Home</a>
+                    <span class="sep">›</span>
+                    <span>Reviews</span>
+                </div>
+                <h1>All <span>Reviews</span></h1>
+                <p>Customer feedback and ratings</p>
+            </div>
+
+            <div class="review-grid">
+                {% for i in userdict %}
+                <div class="review-card">
+                    <div class="review-card-header">
+                        <div class="customer-info">
+                            <div class="customer-avatar">
+                                {{ i.customer|slice:":1"|upper }}
+                            </div>
+                            <span class="customer-name">{{ i.customer }}</span>
+                        </div>
+                        <span class="review-rating-pill">⭐ {{ i.rating }}</span>
+                    </div>
+                    <div class="review-card-body">
+                        <blockquote class="review-quote">
+                            "{{ i.review_text }}"
+                        </blockquote>
+                        
+                        {% if i.photo %}
+                        <div class="review-photo-container">
+                            <img src="{{ i.photo.url }}" alt="Attached Review Image" class="review-photo">
+                        </div>
+                        {% endif %}
+                        
+                        <div class="review-meta">
+                            <div class="review-meta-row">
+                                <span class="review-meta-label">Kitchen</span>
+                                <span class="review-meta-value">{{ i.kitchen }}</span>
+                            </div>
+                            <div class="review-meta-row">
+                                <span class="review-meta-label">Menu Item</span>
+                                <span class="review-meta-value">{{ i.menu_item }}</span>
+                            </div>
+                            <div class="review-meta-row">
+                                <span class="review-meta-label">Order ID</span>
+                                <span class="review-meta-value">{{ i.order }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-card-footer">
+                        <span class="review-date-text">📅 {{ i.review_date }}</span>
+                        <a href="{% url 'delreview' i.id %}" class="action-link" style="margin: 0;">🗑 Delete</a>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="empty-state" style="grid-column: 1 / -1;">
+                    <div class="empty-icon">⭐</div>
+                    <p>No reviews found. <a href="{% url 'insertreview' %}" style="color: var(--primary-light);">Add one now</a></p>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="table-footer" style="border-top: 1px solid var(--glass-border); padding-top: 1.5rem;">
+                <span>Showing all review records</span>
+                <a href="{% url 'insertreview' %}" class="btn btn-primary">+ Add Review</a>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

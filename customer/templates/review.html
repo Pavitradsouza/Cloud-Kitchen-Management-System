@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Add a new review to CloudKitchen system.">
+    <title>Add Review | CloudKitchen</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="{% url 'showindex' %}" class="logo">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </a>
+           </nav>
+    </header>
+
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </div>
+            {% include 'customer_menu.html' %}
+        </aside>
+
+        <main class="dashboard-content">
+            <div class="page-header">
+                <div class="page-breadcrumb">
+                    <a href="{% url 'showindex' %}">Home</a>
+                    <span class="sep">›</span>
+                    <span>Add Review</span>
+                </div>
+                <h1>Add <span>Review</span></h1>
+                <p>Submit a customer review</p>
+            </div>
+
+            <div class="dashboard-card admin-form">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="t1">Customer (Username)</label>
+                            <input type="text" id="t1" name="t1" value="{{ username }}" placeholder="Enter customer" required readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="t2">Kitchen</label>
+                            <select id="t2" name="t2" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; background-color: #fff; color: #333; font-size: 14px;">
+                                <option value="" disabled selected style="color: #999;">Select Kitchen</option>
+                                {% for k in kitchen_list %}
+                                    <option value="{{ k.kitchen_name }}" style="color: #333;">{{ k.kitchen_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="t3">Menu Item</label>
+                            <select id="t3" name="t3" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; background-color: #fff; color: #333; font-size: 14px;">
+                                <option value="" disabled selected style="color: #999;">Select Menu Item</option>
+                                {% for m in menu_item_list %}
+                                    <option value="{{ m.item_name }}" style="color: #333;">{{ m.item_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="t4">Order</label>
+                            <input type="text" id="t4" name="t4" placeholder="Enter order ID" pattern="^[a-zA-Z0-9_-]+$" title="Order ID must contain letters, numbers, hyphens, or underscores" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t5">Rating</label>
+                            <input type="number" id="t5" name="t5" placeholder="Enter rating (1-5)" min="1" max="5" step="0.1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t6">Review Text</label>
+                            <input type="text" id="t6" name="t6" placeholder="Enter review text" pattern=".{3,}" title="Review text must be at least 3 characters long" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t7">Review Date</label>
+                            <input type="date" id="t7" name="t7" value="{{ today }}" placeholder="YYYY-MM-DD" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="t8">Photo</label>
+                            <input type="file" id="t8" name="t8" accept="image/*">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-large">⭐ Submit Review</button>
+                        <a href="{% url 'showreview' %}" class="btn btn-outline">View All Reviews</a>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.querySelector("form");
+            if (form) {
+                form.addEventListener("submit", function(event) {
+                    const formTitle = document.querySelector("h1")?.textContent.trim() || document.querySelector("h2")?.textContent.trim() || "Form";
+                    alert(formTitle + " form submitted successfully!");
+                });
+            }
+        });
+    </script>
+</body>
+</html>

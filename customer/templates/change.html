@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Change your CloudKitchen account password securely.">
+    <title>Change Password | CloudKitchen</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="{% url 'showindex' %}" class="logo">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="{% url 'showindex' %}">Home</a></li>
+            </ul>
+            <div class="nav-auth">
+                <a href="{% url 'insertuserlogin' %}" class="btn btn-outline">Login</a>
+              
+            </div>
+        </nav>
+    </header>
+
+    <!-- Change Password Section -->
+    <section class="auth-page change-page">
+        <div class="auth-card">
+            <h2>Change <span>Password</span></h2>
+            <p class="auth-subtitle">Update your account password securely</p>
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="old_password">Old Password</label>
+                    <input type="password" id="old_password" name="t1" placeholder="Enter old password" pattern=".{6,}" title="Password must be at least 6 characters long" required>
+                </div>
+                <div class="form-group">
+                    <label for="new_password">New Password</label>
+                    <input type="password" id="new_password" name="t2" placeholder="Enter new password" pattern=".{6,}" title="Password must be at least 6 characters long" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm_password">Confirm Password</label>
+                    <input type="password" id="confirm_password" name="t3" placeholder="Confirm new password" pattern=".{6,}" title="Password must be at least 6 characters long" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block btn-large">🔒 Update Password</button>
+            </form>
+
+            <div class="form-footer">
+                <p>Back to <a href="{% url 'insertuserlogin' %}">Login</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 CloudKitchen. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.querySelector("form");
+            if (form) {
+                form.addEventListener("submit", function(event) {
+                    const formTitle = document.querySelector("h1")?.textContent.trim() || document.querySelector("h2")?.textContent.trim() || "Form";
+                    alert(formTitle + " form submitted successfully!");
+                });
+            }
+        });
+    </script>
+</body>
+</html>

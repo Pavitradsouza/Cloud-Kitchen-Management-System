@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="View all menu categories in CloudKitchen system.">
+    <title>View Menu Categories | CloudKitchen</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="{% url 'showindex' %}" class="logo">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </a>
+
+
+        </nav>
+    </header>
+
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">CloudKitchen</span>
+            </div>{% include 'customer_menu.html' %}
+        </aside>
+
+        <main class="dashboard-content">
+            <div class="page-header">
+                <div class="page-breadcrumb">
+                    <a href="{% url 'showindex' %}">Home</a>
+                    <span class="sep">›</span>
+                    <span>Menu Categories</span>
+                </div>
+                <h1>Menu <span>Categories</span></h1>
+                <p>Organize your menu with categories</p>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Kitchen</th>
+                                <th>Category Name</th>
+                                <th>Description</th>
+                                <th>Display Order</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in userdict %}
+                            <tr>
+                                <td>{{ i.kitchen }}</td>
+                                <td>{{ i.category_name }}</td>
+                                <td>{{ i.description }}</td>
+                                <td>{{ i.display_order }}</td>
+                                <td>{{ i.status }}</td>
+                                <td><a href="{% url 'showmenuitem' %}?category={{ i.category_name }}" class="action-link" style="color: #4CAF50;">✔️ Select</a></td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="6">
+                                    <div class="empty-state">
+                                        <div class="empty-icon">📂</div>
+                                        <p>No categories found. <a href="{% url 'insertmenucategory' %}"
+                                                style="color: var(--primary-light);">Add one now</a></p>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-footer">
+                    <span>Showing all category records</span>
+                    <a href="{% url 'insertmenucategory' %}" class="btn btn-primary">+ Add Category</a>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
